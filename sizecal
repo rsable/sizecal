@@ -1,0 +1,69 @@
+#!/bin/bash
+check() {
+	( printf "%f" $1 >/dev/null 2>&1 ) \
+		&& echo "1" \
+		|| echo "0"
+}
+
+b_to_kb() {
+	printf "`echo "scale=4;$VAL/1024" | bc -l ` `echo KB` \n"
+}
+
+b_to_mb() {
+	printf "`echo "scale=4;$VAL/1024/1024" | bc -l ` `echo MB` \n"
+}
+
+b_to_gb() {
+	printf "`echo "scale=4;$VAL/1024/1024/1024" | bc -l ` `echo GB` \n"
+}
+
+b_to_tb() {
+	printf "`echo "scale=4;$VAL/1024/1024/1024/1024" | bc -l ` `echo TB` \n"
+}
+
+mb_to_b() {
+	VAL=`echo "scale=4;$1*1024*1024" | bc -l`
+}
+
+gb_to_b() {
+	VAL=`echo "scale=4;$1*1024*1024*1024" | bc -l`
+}
+
+tb_to_b() {
+	VAL=`echo "scale=4;$1*1024*1024*1024*1024" | bc -l`
+}
+
+num_check=`check $1`
+num_type_check=`check $2`
+if [[ num_check -eq 1 && num_type_check -eq 0 ]]
+then
+	echo "$1 in $2 is :"
+	case $2 in
+	b|B)
+		VAL=$1
+		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		`echo $n` $1
+		done
+	;;
+	m|M|mb|MB)
+		mb_to_b $1
+		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		`echo $n` $1
+		done
+	;;
+	g|G|gb|GB)
+		gb_to_b $1
+		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		`echo $n` $1
+		done
+	;;
+	t|T|tb|TB)
+		tb_to_b $1
+		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		`echo $n` $1
+		done
+	;;
+  esac
+else
+	echo "Usage : sizecal SIZE SIZE_INDEX"
+fi
