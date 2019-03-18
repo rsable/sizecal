@@ -21,6 +21,10 @@ b_to_tb() {
 	printf "`echo "scale=4;$VAL/1024/1024/1024/1024" | bc -l ` `echo TB` \n"
 }
 
+kb_to_b() {
+	VAL=`echo "scale=4;$1*1024" | bc -l`
+}
+
 mb_to_b() {
 	VAL=`echo "scale=4;$1*1024*1024" | bc -l`
 }
@@ -41,6 +45,12 @@ then
 	case $2 in
 	b|B)
 		VAL=$1
+		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		`echo $n` $1
+		done
+	;;
+	k|K|Kb|KB)
+		kb_to_b $1
 		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
