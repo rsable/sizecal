@@ -5,6 +5,10 @@ check() {
 		|| echo "0"
 }
 
+b_to_b() {
+	printf "`echo $VAL` `echo B` \n"
+}
+
 b_to_kb() {
 	printf "`echo "scale=4;$VAL/1024" | bc -l ` `echo KB` \n"
 }
@@ -45,31 +49,31 @@ then
 	case $2 in
 	b|B)
 		VAL=$1
-		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		for n in {b_to_b,b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
 	;;
-	k|K|Kb|KB)
+	k|K|kb|KB|Kb|kB)
 		kb_to_b $1
-		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		for n in {b_to_b,b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
 	;;
-	m|M|mb|MB)
+	m|M|mb|MB|Mb|mB)
 		mb_to_b $1
-		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		for n in {b_to_b,b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
 	;;
-	g|G|gb|GB)
+	g|G|gb|GB|Gb|gB)
 		gb_to_b $1
-		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		for n in {b_to_b,b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
 	;;
-	t|T|tb|TB)
+	t|T|tb|TB|Tb|tB)
 		tb_to_b $1
-		for n in {b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
+		for n in {b_to_b,b_to_kb,b_to_mb,b_to_gb,b_to_tb};do
 		`echo $n` $1
 		done
 	;;
